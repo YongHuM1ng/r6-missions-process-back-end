@@ -7,7 +7,7 @@
 近距离交战
 使用霰弹枪消灭5名敌人。
 5
-雇佣出战 (Thatcher,Bandit,Vigil,Ela)
+雇佣出战|Thatcher,Bandit,Vigil,Ela
 使用Thatcher、Bandit、Vigil或Ela赢得5回合多人对战。
 5
 情报工作

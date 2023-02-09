@@ -17,4 +17,4 @@ async def index():
 
 # @app.get('/api/missionlist')
 # async def api_missionlist():
-#     return FileResponse('static/assets/missionlist.json', media_type='application/json')
+#     return FileResponse('static/assets/mission_list.json', media_type='application/json')

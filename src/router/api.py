@@ -4,6 +4,6 @@ from starlette.responses import FileResponse
 router = APIRouter(prefix='/api')
 
 
-@router.get('/missionlist')
-async def api_missionlist():
-    return FileResponse('../static/assets/missionlist.json', media_type='application/json')
+@router.get('/mission_list')
+async def api_mission_list():
+    return FileResponse('src/data/mission_list.json', media_type='application/json')
