@@ -16,6 +16,6 @@ for i in range(len(mission_list) // 3):
     })
     if mission_obj[i]['data']['about'] == '':
         mission_obj[i]['data'].pop('about')
-with open('mission_list.json', 'w', encoding='utf-8') as f:
+with open('../data/mission_list.json', 'w', encoding='utf-8') as f:
     # json.dump(mission_obj, f, ensure_ascii=False, indent=2)
     json.dump(mission_obj, f, ensure_ascii=False, separators=(',', ':'))

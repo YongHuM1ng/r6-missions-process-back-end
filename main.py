@@ -13,8 +13,3 @@ app.include_router(api.router)
 @app.get('/')
 async def index():
     return FileResponse('src/static/index.html', media_type='text/html')
-
-
-# @app.get('/api/missionlist')
-# async def api_missionlist():
-#     return FileResponse('static/assets/mission_list.json', media_type='application/json')

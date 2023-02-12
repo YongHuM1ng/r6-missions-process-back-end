@@ -19,3 +19,12 @@
 陷阱大师
 使用阔剑地雷、爆破炸药或Kapkan、Frost、Nomad、Lesion、Ela、Thorn的技能击中敌人15次。
 15
+穿墙击杀
+穿透可破坏表面见面8名敌人。
+8
+足智多谋
+15次部署阔剑地雷、倒刺铁丝网或Frost、Lesion、Melusi、Ela、Nomad、Kapkan、Gridlock、Thorn的技能装备。
+15
+雇佣出战|Tachanka,Smoke,Buck,Oryx
+使用Tachanka、Smoke、Buck或Oryx赢得5回合多人对战。
+5
