@@ -1,6 +1,7 @@
 import json
-from typing import Union
 import os
+from typing import Union
+
 from fastapi import Cookie, APIRouter, Body, Query
 from starlette.responses import FileResponse
 
@@ -10,8 +11,39 @@ with open('src/data/token_index.json', 'r') as f:
 
 
 @router.get('/mission_list')
-async def api_mission_list(token: Union[str, None] = Cookie(default=None)):
-    return FileResponse('src/data/mission_list.json', media_type='application/json', filename='114514')
+async def api_mission_list():
+    return FileResponse('src/data/mission_list.json', media_type='application/json')
+
+
+@router.get('/mission_list_text')
+async def api_mission_list_text():
+    return FileResponse('src/data/mission_list.txt', media_type='text/plain')
+
+
+@router.post('/mission_list_text_update')
+async def api_mission_list_text_update(data: dict = Body()):
+    print(data)
+    with open('src/data/mission_list.txt', 'w', encoding='utf-8') as ff:
+        ff.write(data['text'].replace('\r', ''))
+    mission_list = data['text'].split()
+    mission_obj = []
+    for i in range(len(mission_list) // 3):
+        mission_obj.append({
+            'id': f'ms{i}',
+            'data': {
+                'name': mission_list[3 * i].replace('\n', '')[:mission_list[3 * i].index('|')] if '|' in mission_list[
+                    3 * i] else mission_list[3 * i].replace('\n', ''),
+                'about': mission_list[3 * i].replace('\n', '')[mission_list[3 * i].index('|') + 1:] if '|' in
+                                                                                                       mission_list[
+                                                                                                           3 * i] else '',
+                'desc': mission_list[3 * i + 1].replace('\n', ''),
+                'target': int(mission_list[3 * i + 2].replace('\n', ''))
+            }
+        })
+        if mission_obj[i]['data']['about'] == '':
+            mission_obj[i]['data'].pop('about')
+    with open('src/data/mission_list.json', 'w', encoding='utf-8') as ff:
+        json.dump(mission_obj, ff, ensure_ascii=False, separators=(',', ':'))
 
 
 @router.get('/token/verify')
