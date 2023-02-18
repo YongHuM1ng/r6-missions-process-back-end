@@ -51,6 +51,8 @@ async def api_mission_list_text_update(data: dict = Body()):
 
 @router.post('/mission_list_add')
 async def api_mission_list_add(token: Union[str, None] = Cookie(default=None), data: dict = Body()):
+    if not token in token_index.values():
+        return False
     data['qq'] = next(key for key, value in token_index.items() if value == token)
     mission_add_list.append(data)
     with open('src/data/mission_add_list.json', 'w') as ff:
@@ -87,6 +89,8 @@ async def api_token_set(qq: str, token: str):
 
 @router.get('/cards/get')
 async def api_cards_get(token: Union[str, None] = Cookie(default=None)):
+    if not token in token_index.values():
+        return False
     try:
         with open(f'src/data/cards/{token}.json', 'r') as ff:
             cards = json.load(ff)
@@ -102,6 +106,8 @@ async def api_cards_get(token: Union[str, None] = Cookie(default=None)):
 @router.post('/cards/index')
 async def api_cards_index(data: dict = Body(),
                           token: Union[str, None] = Cookie(default=None)):
+    if not token in token_index.values():
+        return False
     with open(f'src/data/cards/{token}.json', 'r') as ff:
         cards = json.load(ff)
     cards['index'] = data['data']
@@ -112,6 +118,8 @@ async def api_cards_index(data: dict = Body(),
 @router.get('/cards/add')
 async def api_cards_add(id_: str = Query(alias='id'),
                         token: Union[str, None] = Cookie(default=None)):
+    if not token in token_index.values():
+        return False
     with open(f'src/data/cards/{token}.json', 'r') as ff:
         cards = json.load(ff)
     cards['index'].insert(0, id_)
@@ -123,6 +131,8 @@ async def api_cards_add(id_: str = Query(alias='id'),
 @router.get('/cards/del')
 async def api_cards_del(id_: str = Query(alias='id'),
                         token: Union[str, None] = Cookie(default=None)):
+    if not token in token_index.values():
+        return False
     with open(f'src/data/cards/{token}.json', 'r') as ff:
         cards = json.load(ff)
     cards['index'].remove(id_)
@@ -134,6 +144,8 @@ async def api_cards_del(id_: str = Query(alias='id'),
 @router.post('/cards/modify')
 async def api_cards_modify(id_: str = Body(alias="id"), data: dict = Body(),
                            token: Union[str, None] = Cookie(default=None)):
+    if not token in token_index.values():
+        return False
     with open(f'src/data/cards/{token}.json', 'r') as ff:
         cards = json.load(ff)
     cards['cards'][id_] = data
