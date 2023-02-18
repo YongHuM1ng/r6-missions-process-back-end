@@ -9,6 +9,9 @@ router = APIRouter(prefix='/api')
 with open('src/data/token_index.json', 'r') as f:
     token_index = json.load(f)
 
+with open('src/data/mission_add_list.json', 'r') as f:
+    mission_add_list = json.load(f)
+
 
 @router.get('/mission_list')
 async def api_mission_list():
@@ -22,7 +25,7 @@ async def api_mission_list_text():
 
 @router.post('/mission_list_text_update')
 async def api_mission_list_text_update(data: dict = Body()):
-    print(data)
+    data['text'] = data['text'].rstrip()
     with open('src/data/mission_list.txt', 'w', encoding='utf-8') as ff:
         ff.write(data['text'].replace('\r', ''))
     mission_list = data['text'].split()
@@ -46,6 +49,28 @@ async def api_mission_list_text_update(data: dict = Body()):
         json.dump(mission_obj, ff, ensure_ascii=False, separators=(',', ':'))
 
 
+@router.post('/mission_list_add')
+async def api_mission_list_add(token: Union[str, None] = Cookie(default=None), data: dict = Body()):
+    data['qq'] = next(key for key, value in token_index.items() if value == token)
+    mission_add_list.append(data)
+    with open('src/data/mission_add_list.json', 'w') as ff:
+        json.dump(mission_add_list, ff)
+
+
+@router.post('/mission_list_overlay')
+async def api_mission_list_overlay(data: dict = Body()):
+    mission_add_list.clear()
+    for i in data['data']:
+        mission_add_list.append(i)
+    with open('src/data/mission_add_list.json', 'w') as ff:
+        json.dump(mission_add_list, ff)
+
+
+@router.get('/mission_list_add_get')
+async def api_mission_list_add_get():
+    return mission_add_list
+
+
 @router.get('/token/verify')
 async def api_token_verify(token: Union[str, None] = Cookie(default=None)):
     return token in token_index.values()
@@ -56,9 +81,8 @@ async def api_token_set(qq: str, token: str):
     if qq in token_index:
         os.rename(f'src/data/cards/{token_index[qq]}.json', f'src/data/cards/{token}.json')
     token_index[qq] = token
-    with open('src/data/token_index.json', 'w') as ff:
+    with open('src/data/mission_add_list.json', 'w') as ff:
         json.dump(token_index, ff)
-    return True
 
 
 @router.get('/cards/get')
